@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating background shapes -->
+    <div class="bg-shapes" id="bgShapes"></div>
+
+    <!-- Confetti overlay -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Mute toggle (fixed top-right) -->
+    <button id="btn-mute" class="mute-btn" title="Toggle sound">&#x1F50A;</button>
+
+    <!-- Celebration overlay (reusable, outside container) -->
+    <div id="celebration-overlay" class="celebration-overlay" style="display:none">
+        <div id="celebration-text" class="celebration-text"></div>
+    </div>
+
+    <!-- Level-up popup -->
+    <div id="level-up-popup" class="level-up-popup" style="display:none">
+        <div class="level-up-content">
+            <div class="level-up-icon">&#x2B06;&#xFE0F;</div>
+            <div class="level-up-title">LEVEL UP!</div>
+            <div id="level-up-number" class="level-up-number"></div>
+        </div>
+    </div>
+
+    <!-- Badge notification toast -->
+    <div id="badge-notification" class="badge-notification" style="display:none">
+        <div class="badge-notification-content">
+            <span id="badge-notification-emoji" class="badge-notification-emoji"></span>
+            <span id="badge-notification-text" class="badge-notification-text"></span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Screen 1: Profile Select -->
+        <div id="screen-profile" class="screen">
+            <a href="../index.html" class="back-link">&larr; Back to Launcher</a>
+            <h1>Math Game</h1>
+            <h2>Choose Your Profile</h2>
+            <div id="profile-list"></div>
+            <div class="create-profile-row">
+                <input type="text" id="new-profile-name" placeholder="Enter your name" maxlength="20">
+                <button id="btn-create-profile" class="btn btn-primary">Create Profile</button>
+            </div>
+            <!-- Avatar picker (shown after name entry) -->
+            <div id="avatar-picker" class="avatar-picker" style="display:none">
+                <h3>Choose Your Avatar</h3>
+                <div id="avatar-grid" class="avatar-grid"></div>
+            </div>
+        </div>
+
+        <!-- Screen 2: Grade Select -->
+        <div id="screen-grades" class="screen" style="display:none">
+            <button id="btn-change-profile" class="btn btn-secondary btn-small">&larr; Change Profile</button>
+            <div class="xp-display">
+                <div class="xp-header">
+                    <span id="profile-avatar-header" class="profile-avatar-header"></span>
+                    <h1 id="active-profile-name"></h1>
+                    <span id="level-badge" class="level-badge"></span>
+                </div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar">
+                        <div id="xp-bar-fill" class="xp-bar-fill"></div>
+                    </div>
+                    <span id="xp-text" class="xp-text"></span>
+                </div>
+            </div>
+            <h2>Choose a Grade</h2>
+            <div id="grade-grid" class="grade-grid"></div>
+            <div class="timer-toggle-row">
+                <label class="toggle-label">
+                    <input type="checkbox" id="timer-toggle">
+                    <span class="toggle-switch"></span>
+                    <span class="toggle-text">Timer Mode</span>
+                </label>
+            </div>
+            <div class="badge-display">
+                <h3>Achievements</h3>
+                <div id="badge-grid" class="badge-grid"></div>
+            </div>
+        </div>
+
+        <!-- Screen 3: Game Screen -->
+        <div id="screen-game" class="screen" style="display:none">
+            <div class="game-header">
+                <button id="btn-quit" class="btn btn-secondary btn-small">Quit</button>
+                <span id="game-grade-label" class="game-info"></span>
+                <span id="game-question-num" class="game-info"></span>
+                <span id="game-score" class="game-info"></span>
+            </div>
+            <div id="game-progress" class="progress-bar">
+                <div id="game-progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="game-timer" class="game-timer" style="display:none">
+                <div id="timer-bar" class="timer-bar">
+                    <div id="timer-fill" class="timer-fill"></div>
+                </div>
+                <span id="timer-text" class="timer-text"></span>
+            </div>
+            <div id="streak-banner" class="streak-banner" style="display:none"></div>
+            <div id="game-question" class="question-text"></div>
+            <div id="answer-grid" class="answer-grid"></div>
+            <div id="floating-points" class="floating-points-container"></div>
+        </div>
+
+        <!-- Screen 4: Results -->
+        <div id="screen-results" class="screen" style="display:none">
+            <div id="results-avatar" class="results-avatar"></div>
+            <div id="results-stars" class="results-stars"></div>
+            <h1 id="results-score"></h1>
+            <div id="results-points" class="results-points"></div>
+            <div id="results-high-score" class="results-high-score"></div>
+            <div id="results-xp" class="results-xp"></div>
+            <div id="results-message" class="results-message"></div>
+            <div id="results-review" class="results-review"></div>
+            <div class="results-buttons">
+                <button id="btn-play-again" class="btn btn-primary">Play Again</button>
+                <button id="btn-back-grades" class="btn btn-secondary">Back to Grades</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+    <script>
+        // Floating background shapes (green theme)
+        (function() {
+            var colors = ['#A5D6A7','#81C784','#66BB6A','#C8E6C9','#4CAF50','#B9F6CA','#69F0AE','#00E676'];
+            var container = document.getElementById('bgShapes');
+            if (!container) return;
+
+            function createShape() {
+                var shape = document.createElement('div');
+                shape.className = 'shape';
+                var size = Math.random() * 80 + 20;
+                var color = colors[Math.floor(Math.random() * colors.length)];
+                var left = Math.random() * 100;
+                var duration = Math.random() * 10 + 8;
+                var delay = Math.random() * 5;
+
+                shape.style.width = size + 'px';
+                shape.style.height = size + 'px';
+                shape.style.background = color;
+                shape.style.left = left + '%';
+                shape.style.animationDuration = duration + 's';
+                shape.style.animationDelay = delay + 's';
+
+                container.appendChild(shape);
+                setTimeout(function() { shape.remove(); }, (duration + delay) * 1000);
+            }
+
+            for (var i = 0; i < 15; i++) createShape();
+            setInterval(createShape, 1200);
+        })();
+    </script>
+</body>
+</html>

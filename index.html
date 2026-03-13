@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kid Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 16px;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating background shapes */
+        .bg-shapes {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0%   { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+            10%  { opacity: 0.15; }
+            90%  { opacity: 0.15; }
+            100% { transform: translateY(-20vh) rotate(720deg) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 64px;
+            margin-bottom: 12px;
+            color: #fff;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.15), 0 0 40px rgba(255,255,255,0.3);
+            animation: titleBounce 2s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 22px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 48px;
+            font-weight: 300;
+        }
+
+        .games {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            min-height: 60px;
+            padding: 28px 32px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            animation: cardSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.25s; }
+        .card:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-60px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-4px);
+            box-shadow:
+                0 16px 40px rgba(0, 0, 0, 0.25),
+                0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .card:active {
+            transform: scale(0.97);
+            transition-duration: 0.1s;
+        }
+
+        .card-icon {
+            font-size: 56px;
+            line-height: 1;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+            animation: iconWiggle 3s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .card:nth-child(1) .card-icon { animation-delay: 0s; }
+        .card:nth-child(2) .card-icon { animation-delay: 1s; }
+        .card:nth-child(3) .card-icon { animation-delay: 2s; }
+
+        @keyframes iconWiggle {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25%      { transform: rotate(-8deg) scale(1.1); }
+            75%      { transform: rotate(8deg) scale(1.1); }
+        }
+
+        .card-text {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 34px;
+            margin-bottom: 6px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            letter-spacing: 1px;
+        }
+
+        .card-desc {
+            font-size: 17px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .card-arrow {
+            font-size: 32px;
+            opacity: 0.6;
+            transition: transform 0.25s, opacity 0.25s;
+            flex-shrink: 0;
+        }
+
+        .card:hover .card-arrow {
+            transform: translateX(8px);
+            opacity: 1;
+        }
+
+        .card-math {
+            background: linear-gradient(135deg, #43A047, #66BB6A, #2E7D32);
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.4);
+        }
+
+        .card-typing {
+            background: linear-gradient(135deg, #1E88E5, #42A5F5, #1565C0);
+            box-shadow: 0 8px 24px rgba(33, 150, 243, 0.4);
+        }
+
+        .card-coding {
+            background: linear-gradient(135deg, #FB8C00, #FFA726, #E65100);
+            box-shadow: 0 8px 24px rgba(255, 152, 0, 0.4);
+        }
+
+        /* Sparkle on hover */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            background: white;
+            animation: sparkleAnim 0.6s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0%   { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 48px;
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes" id="bgShapes"></div>
+
+    <div class="container">
+        <h1>Kid Games</h1>
+        <p class="subtitle">Pick a game and let's play!</p>
+
+        <div class="games">
+            <a href="math-game/index.html" class="card card-math">
+                <div class="card-icon">🧮</div>
+                <div class="card-text">
+                    <div class="card-title">Math Game</div>
+                    <div class="card-desc">Solve puzzles, earn stars, become a math wizard!</div>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="typing-game/index.html" class="card card-typing">
+                <div class="card-icon">⌨️</div>
+                <div class="card-text">
+                    <div class="card-title">Typing Game</div>
+                    <div class="card-desc">Race against the clock and type at lightning speed!</div>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="coding-game/index.html" class="card card-coding">
+                <div class="card-icon">🤖</div>
+                <div class="card-text">
+                    <div class="card-title">Coding Game</div>
+                    <div class="card-desc">Command your robot through awesome grid puzzles!</div>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+        </div>
+
+        <div class="footer">Click a card to start playing!</div>
+    </div>
+
+    <script>
+        // Floating background shapes
+        const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96E6A1','#DDA0DD','#F7DC6F','#BB8FCE','#F1948A'];
+        const shapesContainer = document.getElementById('bgShapes');
+
+        function createShape() {
+            const shape = document.createElement('div');
+            shape.classList.add('shape');
+            const size = Math.random() * 80 + 20;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const left = Math.random() * 100;
+            const duration = Math.random() * 10 + 8;
+            const delay = Math.random() * 5;
+
+            shape.style.width = size + 'px';
+            shape.style.height = size + 'px';
+            shape.style.background = color;
+            shape.style.left = left + '%';
+            shape.style.animationDuration = duration + 's';
+            shape.style.animationDelay = delay + 's';
+
+            shapesContainer.appendChild(shape);
+
+            setTimeout(() => shape.remove(), (duration + delay) * 1000);
+        }
+
+        // Create initial batch and keep spawning
+        for (let i = 0; i < 15; i++) createShape();
+        setInterval(createShape, 1200);
+
+        // Sparkle effect on card hover
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if (Math.random() > 0.7) {
+                    const rect = card.getBoundingClientRect();
+                    const sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    const size = Math.random() * 8 + 4;
+                    sparkle.style.width = size + 'px';
+                    sparkle.style.height = size + 'px';
+                    sparkle.style.left = (e.clientX - rect.left) + 'px';
+                    sparkle.style.top = (e.clientY - rect.top) + 'px';
+                    card.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 600);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
