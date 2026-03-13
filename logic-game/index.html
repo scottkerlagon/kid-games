@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Brain Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="bg-shapes" id="bgShapes"></div>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container" class="confetti-container"></div>
+
+    <!-- Profile Select Screen -->
+    <div id="profile-screen" class="screen">
+        <a href="../index.html" class="back-link">&#8592; Back to Launcher</a>
+        <h1>Robot Brain Builder</h1>
+        <p class="subtitle">Help Professor Circuit build the perfect robot brain!</p>
+        <div id="profile-list"></div>
+        <div class="profile-create">
+            <input type="text" id="profile-name-input" placeholder="Enter your name" maxlength="20">
+            <button id="create-profile-btn" class="btn btn-primary">Create Profile</button>
+        </div>
+    </div>
+
+    <!-- Level Select Screen -->
+    <div id="level-screen" class="screen" style="display:none">
+        <div class="level-header">
+            <button id="change-profile-btn" class="btn btn-secondary">&#8592; Change Profile</button>
+            <h1>Select a Level</h1>
+            <p id="level-profile-name" class="subtitle"></p>
+            <div id="star-progress" class="star-progress">
+                <span class="star-progress-icon">&#11088;</span>
+                <span id="star-count">0 / 72 Stars</span>
+                <div class="star-progress-track">
+                    <div id="star-progress-bar" class="star-progress-bar"></div>
+                </div>
+            </div>
+            <div id="coin-display-level" class="coin-display">
+                <span class="coin-icon">&#129689;</span>
+                <span id="coin-count-level">0</span>
+            </div>
+        </div>
+
+        <!-- Module 1: Perception Core -->
+        <div class="module-section" data-module="1">
+            <div class="module-header" data-module="1">
+                <span class="module-icon">&#128065;</span>
+                <span class="module-name">Module 1: Perception Core</span>
+                <span class="module-chevron">&#9660;</span>
+            </div>
+            <div class="module-body" data-module="1">
+                <div class="level-grid-module">
+                    <button class="btn level-btn" data-level="1">
+                        <span class="level-num">1</span>
+                        <span class="level-name">What's Different?</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="2">
+                        <span class="level-num">2</span>
+                        <span class="level-name">Pattern Match</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="3">
+                        <span class="level-num">3</span>
+                        <span class="level-name">Odd One Out</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="4">
+                        <span class="level-num">4</span>
+                        <span class="level-name">Sequence Sense</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="5">
+                        <span class="level-num">5</span>
+                        <span class="level-name">Visual Logic</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="6">
+                        <span class="level-num">6</span>
+                        <span class="level-name">Core Test</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Analysis Engine -->
+        <div class="module-section" data-module="2">
+            <div class="module-header" data-module="2">
+                <span class="module-icon">&#128300;</span>
+                <span class="module-name">Module 2: Analysis Engine</span>
+                <span class="module-chevron">&#9660;</span>
+            </div>
+            <div class="module-body" data-module="2">
+                <div class="level-grid-module">
+                    <button class="btn level-btn" data-level="7">
+                        <span class="level-num">7</span>
+                        <span class="level-name">Sort It Out</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="8">
+                        <span class="level-num">8</span>
+                        <span class="level-name">Categorize</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="9">
+                        <span class="level-num">9</span>
+                        <span class="level-name">Venn Think</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="10">
+                        <span class="level-num">10</span>
+                        <span class="level-name">Data Decode</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="11">
+                        <span class="level-num">11</span>
+                        <span class="level-name">Rule Finder</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="12">
+                        <span class="level-num">12</span>
+                        <span class="level-name">Engine Test</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: Logic Processor -->
+        <div class="module-section" data-module="3">
+            <div class="module-header" data-module="3">
+                <span class="module-icon">&#9881;</span>
+                <span class="module-name">Module 3: Logic Processor</span>
+                <span class="module-chevron">&#9660;</span>
+            </div>
+            <div class="module-body" data-module="3">
+                <div class="level-grid-module">
+                    <button class="btn level-btn" data-level="13">
+                        <span class="level-num">13</span>
+                        <span class="level-name">If-Then</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="14">
+                        <span class="level-num">14</span>
+                        <span class="level-name">AND Gates</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="15">
+                        <span class="level-num">15</span>
+                        <span class="level-name">OR Gates</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="16">
+                        <span class="level-num">16</span>
+                        <span class="level-name">NOT Flip</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="17">
+                        <span class="level-num">17</span>
+                        <span class="level-name">Truth Tables</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="18">
+                        <span class="level-num">18</span>
+                        <span class="level-name">Processor Test</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: Master Brain -->
+        <div class="module-section" data-module="4">
+            <div class="module-header" data-module="4">
+                <span class="module-icon">&#129504;</span>
+                <span class="module-name">Module 4: Master Brain</span>
+                <span class="module-chevron">&#9660;</span>
+            </div>
+            <div class="module-body" data-module="4">
+                <div class="level-grid-module">
+                    <button class="btn level-btn" data-level="19">
+                        <span class="level-num">19</span>
+                        <span class="level-name">Deduction</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="20">
+                        <span class="level-num">20</span>
+                        <span class="level-name">Analogies</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="21">
+                        <span class="level-num">21</span>
+                        <span class="level-name">Syllogisms</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="22">
+                        <span class="level-num">22</span>
+                        <span class="level-name">Paradox</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="23">
+                        <span class="level-num">23</span>
+                        <span class="level-name">Brain Combo</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                    <button class="btn level-btn" data-level="24">
+                        <span class="level-num">24</span>
+                        <span class="level-name">Master Test</span>
+                        <span class="level-stars">&#9734;&#9734;&#9734;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Robot Shop Button -->
+        <div class="shop-button-area">
+            <button id="open-shop-btn" class="btn btn-shop">&#129302; Robot Shop</button>
+        </div>
+    </div>
+
+    <!-- Robot Shop Screen -->
+    <div id="shop-screen" class="screen" style="display:none">
+        <div class="shop-header">
+            <button id="shop-back-btn" class="btn btn-secondary">&#8592; Back to Levels</button>
+            <h1>Robot Shop</h1>
+            <div id="coin-display-shop" class="coin-display">
+                <span class="coin-icon">&#129689;</span>
+                <span id="coin-count-shop">0</span>
+            </div>
+        </div>
+        <div class="shop-layout">
+            <div class="shop-preview-area">
+                <div id="robot-preview" class="robot-container">
+                    <div class="robot">
+                        <div class="robot-antenna">
+                            <div class="robot-antenna-stem"></div>
+                            <div class="robot-antenna-tip"></div>
+                        </div>
+                        <div class="robot-head">
+                            <div class="robot-eyes">
+                                <div class="robot-eye robot-eye-left"></div>
+                                <div class="robot-eye robot-eye-right"></div>
+                            </div>
+                        </div>
+                        <div class="robot-body"></div>
+                        <div class="robot-arms">
+                            <div class="robot-arm robot-arm-left"></div>
+                            <div class="robot-arm robot-arm-right"></div>
+                        </div>
+                        <div class="robot-legs">
+                            <div class="robot-leg robot-leg-left"></div>
+                            <div class="robot-leg robot-leg-right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="shop-items-area">
+                <div class="shop-tabs">
+                    <button class="shop-tab active" data-category="antennas">&#128225; Antennas</button>
+                    <button class="shop-tab" data-category="eyes">&#128064; Eyes</button>
+                    <button class="shop-tab" data-category="paint">&#127912; Body Paint</button>
+                    <button class="shop-tab" data-category="accessories">&#127873; Accessories</button>
+                </div>
+                <div id="shop-items" class="shop-items-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen" style="display:none">
+        <div class="game-header">
+            <div class="game-header-top">
+                <button id="back-to-levels-btn" class="btn btn-secondary">&#8592; Back</button>
+                <h2 id="level-title"></h2>
+                <button id="mute-btn" class="mute-btn" title="Toggle sound">&#128266;</button>
+            </div>
+            <div class="game-header-stats">
+                <div class="hearts" id="hearts-display">
+                    <span class="heart">&#10084;</span>
+                    <span class="heart">&#10084;</span>
+                    <span class="heart">&#10084;</span>
+                </div>
+                <div class="coin-display coin-display-game">
+                    <span class="coin-icon">&#129689;</span>
+                    <span id="coin-count-game">0</span>
+                </div>
+                <div class="progress-info">
+                    <span id="progress-text">0 / 0</span>
+                    <div class="progress-bar">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="professor-area" class="professor-area">
+            <div class="professor-character" id="professor-character">
+                <div class="professor-head">
+                    <div class="professor-hair"></div>
+                    <div class="professor-glasses">
+                        <div class="professor-glass-left"></div>
+                        <div class="professor-glass-right"></div>
+                    </div>
+                    <div class="professor-mouth"></div>
+                </div>
+                <div class="professor-coat"></div>
+            </div>
+            <div class="professor-bubble" id="professor-bubble">
+                <p id="professor-text">Welcome to Robot Brain Builder!</p>
+            </div>
+        </div>
+
+        <div id="challenge-area" class="challenge-area"></div>
+
+        <div class="submit-area" id="submit-area">
+            <button class="btn btn-hint hint-btn" id="hint-btn">&#128161; Hint</button>
+            <button id="submit-btn" class="btn btn-primary btn-submit">Check Answer</button>
+        </div>
+
+        <!-- Feedback Overlay -->
+        <div id="feedback-overlay" class="feedback-overlay" style="display:none">
+            <div id="feedback-content" class="feedback-content">
+                <div id="feedback-icon" class="feedback-icon"></div>
+                <p id="feedback-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Complete Screen -->
+    <div id="level-complete-screen" class="screen" style="display:none">
+        <div class="complete-content">
+            <h1 id="complete-title">Level Complete!</h1>
+            <div class="result-stars" id="result-stars">
+                <span class="result-star" data-star="1">&#11088;</span>
+                <span class="result-star" data-star="2">&#11088;</span>
+                <span class="result-star" data-star="3">&#11088;</span>
+            </div>
+            <div class="score-breakdown">
+                <div class="score-row">
+                    <span class="score-label">Challenges Completed</span>
+                    <span class="score-value" id="score-challenges">0/0</span>
+                </div>
+                <div class="score-row">
+                    <span class="score-label">Hearts Remaining</span>
+                    <span class="score-value" id="score-hearts">&#10084;&#10084;&#10084;</span>
+                </div>
+                <div class="score-row score-row-coins">
+                    <span class="score-label">Coins Earned</span>
+                    <span class="score-value" id="score-coins">+0</span>
+                </div>
+            </div>
+            <div id="professor-complete-area" class="professor-area professor-area-small">
+                <div class="professor-character professor-happy">
+                    <div class="professor-head">
+                        <div class="professor-hair"></div>
+                        <div class="professor-glasses">
+                            <div class="professor-glass-left"></div>
+                            <div class="professor-glass-right"></div>
+                        </div>
+                        <div class="professor-mouth professor-mouth-happy"></div>
+                    </div>
+                    <div class="professor-coat"></div>
+                </div>
+                <div class="professor-bubble">
+                    <p id="professor-complete-text">Fantastic work!</p>
+                </div>
+            </div>
+            <div class="complete-buttons">
+                <button id="next-level-btn" class="btn btn-primary">Next Level &#8594;</button>
+                <button id="replay-level-btn" class="btn btn-secondary">&#8634; Replay</button>
+                <button id="back-to-levels-complete-btn" class="btn btn-secondary">Back to Levels</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Failed Screen -->
+    <div id="level-failed-screen" class="screen" style="display:none">
+        <div class="failed-content">
+            <h1 class="failed-title">Almost There!</h1>
+            <p class="failed-subtitle">Don't worry, even the best robots need a reboot sometimes!</p>
+            <div id="professor-failed-area" class="professor-area professor-area-small">
+                <div class="professor-character professor-sad">
+                    <div class="professor-head">
+                        <div class="professor-hair"></div>
+                        <div class="professor-glasses">
+                            <div class="professor-glass-left"></div>
+                            <div class="professor-glass-right"></div>
+                        </div>
+                        <div class="professor-mouth professor-mouth-sad"></div>
+                    </div>
+                    <div class="professor-coat"></div>
+                </div>
+                <div class="professor-bubble">
+                    <p id="professor-failed-text">Let's try again! I believe in you!</p>
+                </div>
+            </div>
+            <div class="failed-score">
+                <p id="failed-score-text">You got 0 out of 0 challenges right.</p>
+            </div>
+            <div class="failed-buttons">
+                <button id="retry-level-btn" class="btn btn-primary">&#8634; Try Again</button>
+                <button id="back-to-levels-failed-btn" class="btn btn-secondary">Back to Levels</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Background Shapes Script -->
+    <script>
+        (function() {
+            var colors = ['#CE93D8','#BA68C8','#AB47BC','#9C27B0','#8E24AA','#7B1FA2','#6A1B9A','#E1BEE7'];
+            var shapesContainer = document.getElementById('bgShapes');
+
+            function createShape() {
+                var shape = document.createElement('div');
+                shape.classList.add('shape');
+                var size = Math.random() * 80 + 20;
+                var color = colors[Math.floor(Math.random() * colors.length)];
+                var left = Math.random() * 100;
+                var duration = Math.random() * 10 + 8;
+                var delay = Math.random() * 5;
+
+                shape.style.width = size + 'px';
+                shape.style.height = size + 'px';
+                shape.style.background = color;
+                shape.style.left = left + '%';
+                shape.style.animationDuration = duration + 's';
+                shape.style.animationDelay = delay + 's';
+
+                shapesContainer.appendChild(shape);
+
+                setTimeout(function() { shape.remove(); }, (duration + delay) * 1000);
+            }
+
+            for (var i = 0; i < 15; i++) createShape();
+            setInterval(createShape, 1200);
+        })();
+    </script>
+
+    <!-- Game Scripts -->
+    <script src="js/profiles.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/robot.js"></script>
+    <script src="js/professor.js"></script>
+    <script src="js/interactions.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/challenges-module1.js"></script>
+    <script src="js/challenges-module2.js"></script>
+    <script src="js/challenges-module3.js"></script>
+    <script src="js/challenges-module4.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
