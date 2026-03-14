@@ -113,6 +113,7 @@
         .card:nth-child(2) { animation-delay: 0.25s; }
         .card:nth-child(3) { animation-delay: 0.4s; }
         .card:nth-child(4) { animation-delay: 0.55s; }
+        .card:nth-child(5) { animation-delay: 0.7s; }
 
         @keyframes cardSlideIn {
             from {
@@ -174,6 +175,7 @@
         .card:nth-child(2) .card-icon { animation-delay: 1s; }
         .card:nth-child(3) .card-icon { animation-delay: 2s; }
         .card:nth-child(4) .card-icon { animation-delay: 3s; }
+        .card:nth-child(5) .card-icon { animation-delay: 4s; }
 
         @keyframes iconWiggle {
             0%, 100% { transform: rotate(0deg) scale(1); }
@@ -228,6 +230,11 @@
         .card-logic {
             background: linear-gradient(135deg, #9C27B0, #BA68C8, #7B1FA2);
             box-shadow: 0 8px 24px rgba(156, 39, 176, 0.4);
+        }
+
+        .card-science {
+            background: linear-gradient(135deg, #00897B, #26A69A, #00695C);
+            box-shadow: 0 8px 24px rgba(0, 150, 136, 0.4);
         }
 
         /* Sparkle on hover */
@@ -293,6 +300,15 @@
                 <div class="card-text">
                     <div class="card-title">Logic Game</div>
                     <div class="card-desc">Build a robot brain with puzzles and logic challenges!</div>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+
+            <a href="science-game/index.html" class="card card-science">
+                <div class="card-icon">🔬</div>
+                <div class="card-text">
+                    <div class="card-title">Science Town</div>
+                    <div class="card-desc">Explore science and build your own town!</div>
                 </div>
                 <div class="card-arrow">→</div>
             </a>

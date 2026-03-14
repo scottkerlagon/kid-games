@@ -1,0 +1,1212 @@
+/* =============================================================
+   Science Town Builder — Complete Stylesheet
+   Theme: Teal (#009688)
+   ============================================================= */
+
+/* === Base Reset & Typography === */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    outline: none;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 24px;
+    background: linear-gradient(135deg, #00897B 0%, #26A69A 30%, #00695C 60%, #80CBC4 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    color: #333;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+::selection {
+    background: #009688;
+    color: white;
+}
+
+/* === Floating Background Shapes === */
+.bg-shapes {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.12;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0%   { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+    10%  { opacity: 0.12; }
+    90%  { opacity: 0.12; }
+    100% { transform: translateY(-20vh) rotate(720deg) scale(1.2); opacity: 0; }
+}
+
+/* === Headings === */
+h1 {
+    font-size: 52px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.15), 0 0 40px rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 1.4em;
+    color: #fff;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+    margin-bottom: 4px;
+}
+
+h3 {
+    font-size: 1em;
+    color: rgba(255,255,255,0.95);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+}
+
+/* === Screen Layout === */
+.screen {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    animation: screenFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+@keyframes screenFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.subtitle {
+    font-size: 20px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 16px;
+}
+
+/* === Back Link === */
+.back-link {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 2;
+}
+
+.back-link:hover {
+    color: rgba(255,255,255,1);
+    transform: translateX(-4px);
+}
+
+/* === Buttons (Base) === */
+.btn {
+    font-family: inherit;
+    font-size: 0.85em;
+    font-weight: bold;
+    min-height: 60px;
+    padding: 16px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, opacity 0.15s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.btn:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #009688, #26A69A, #00796B);
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 150, 136, 0.4);
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+}
+
+.btn-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    min-height: auto;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.btn-close::before {
+    display: none;
+}
+
+.btn-close:hover {
+    color: #333;
+    background: rgba(0,0,0,0.05);
+    transform: none;
+    box-shadow: none;
+}
+
+/* === Focus Visible === */
+*:focus-visible {
+    outline: 2px solid #4DB6AC;
+    outline-offset: 2px;
+}
+
+/* =============================================================
+   Profile Screen
+   ============================================================= */
+#profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.profile-item {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    animation: cardSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.profile-item:nth-child(1) { animation-delay: 0.05s; }
+.profile-item:nth-child(2) { animation-delay: 0.1s; }
+.profile-item:nth-child(3) { animation-delay: 0.15s; }
+.profile-item:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-40px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.profile-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
+    text-align: left;
+    transition: all 0.2s;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+}
+
+.profile-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateX(4px);
+}
+
+.profile-stats {
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: normal;
+}
+
+.profile-delete-btn {
+    background: rgba(244,67,54,0.3);
+    border: none;
+    color: white;
+    width: 60px;
+    min-width: 60px;
+    height: auto;
+    min-height: 60px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.profile-delete-btn:hover {
+    background: rgba(244,67,54,0.6);
+    transform: scale(1.05);
+}
+
+/* Create Profile Section */
+.profile-create {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+#profile-name-input {
+    flex: 1;
+    min-width: 150px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    font-family: inherit;
+    font-size: 18px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#profile-name-input::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+#profile-name-input:focus {
+    border-color: #4DB6AC;
+    box-shadow: 0 0 16px rgba(77,182,172,0.3);
+}
+
+#profile-grade-select {
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+#profile-grade-select:focus {
+    border-color: #4DB6AC;
+}
+
+#profile-grade-select option {
+    background: #004D40;
+    color: white;
+}
+
+#create-profile-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    min-height: auto;
+}
+
+#create-profile-btn:hover {
+    background: linear-gradient(135deg, #00796B, #009688, #004D40);
+    transform: scale(1.05);
+}
+
+/* =============================================================
+   HUD Bar
+   ============================================================= */
+.hud-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    color: white;
+}
+
+.hud-player-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.hud-town-level {
+    font-size: 14px;
+    opacity: 0.8;
+    background: rgba(0,150,136,0.4);
+    padding: 4px 12px;
+    border-radius: 8px;
+}
+
+.hud-resources {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.hud-resource {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.hud-resource span {
+    font-weight: bold;
+    min-width: 20px;
+}
+
+.btn-hud {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    min-height: auto;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.btn-hud::before {
+    display: none;
+}
+
+.btn-hud:hover {
+    background: rgba(255,255,255,0.25);
+    transform: scale(1.05);
+    box-shadow: none;
+}
+
+#build-btn {
+    background: #FF9800;
+    color: white;
+}
+
+#build-btn:hover {
+    background: #F57C00;
+    transform: scale(1.05);
+}
+
+#sound-toggle-btn,
+#change-profile-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =============================================================
+   Map Container & Grid
+   ============================================================= */
+.map-container {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    background: #388E3C;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    position: absolute;
+    inset: 0;
+}
+
+/* === Tile Base === */
+.tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background-color 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* === Tile Types === */
+.tile-grass {
+    background: #81C784;
+}
+
+.tile-path {
+    background: #D7CCC8;
+}
+
+.tile-water {
+    background: #64B5F6;
+    animation: waterShimmer 3s ease-in-out infinite;
+}
+
+@keyframes waterShimmer {
+    0%, 100% { background-color: #64B5F6; }
+    50%      { background-color: #90CAF9; }
+}
+
+.tile-tree {
+    background: #388E3C;
+}
+
+.tile-science {
+    background: #FFE082;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(255,235,59,0.5);
+}
+
+.tile-building {
+    background: #BCAAA4;
+}
+
+.tile-blocked {
+    background: #616161;
+}
+
+/* Buildable tiles glow in build mode */
+.tile-buildable {
+    box-shadow: inset 0 0 0 2px #4CAF50;
+    animation: pulseGreen 1s infinite;
+    cursor: pointer;
+}
+
+@keyframes pulseGreen {
+    0%   { box-shadow: inset 0 0 0 2px rgba(76,175,80,0.3); }
+    50%  { box-shadow: inset 0 0 0 2px rgba(76,175,80,0.8); }
+    100% { box-shadow: inset 0 0 0 2px rgba(76,175,80,0.3); }
+}
+
+/* =============================================================
+   Player Character
+   ============================================================= */
+.player {
+    position: absolute;
+    width: calc(100% / 16);
+    height: calc(100% / 16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    z-index: 10;
+    transition: left 0.15s ease-out, top 0.15s ease-out;
+    pointer-events: none;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+
+.player-walking {
+    animation: playerBounce 0.3s ease-in-out;
+}
+
+@keyframes playerBounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+}
+
+/* =============================================================
+   Interaction Prompt
+   ============================================================= */
+.interaction-prompt {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.75);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* =============================================================
+   D-Pad (Mobile Controls)
+   ============================================================= */
+.d-pad {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    grid-template-columns: repeat(3, 56px);
+    grid-template-rows: repeat(3, 56px);
+    gap: 4px;
+}
+
+.d-pad-btn {
+    background: rgba(0,150,136,0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: background 0.1s, transform 0.1s;
+}
+
+.d-pad-btn:active {
+    background: rgba(0,150,136,0.9);
+    transform: scale(0.95);
+}
+
+/* Position buttons in grid */
+.d-pad-up {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.d-pad-left {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.d-pad-center {
+    grid-column: 2;
+    grid-row: 2;
+    background: rgba(255,152,0,0.7);
+}
+
+.d-pad-center:active {
+    background: rgba(255,152,0,0.9);
+}
+
+.d-pad-right {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.d-pad-down {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* =============================================================
+   Quiz Overlay
+   ============================================================= */
+#quiz-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    max-width: none;
+    animation: none;
+}
+
+.overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quiz-panel {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#quiz-building-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #009688;
+    margin-bottom: 8px;
+    text-shadow: none;
+}
+
+#quiz-progress {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 16px;
+}
+
+#quiz-question-text {
+    font-size: 20px;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+/* === Quiz Options === */
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quiz-option {
+    background: #E0F2F1;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-family: inherit;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-weight: normal;
+}
+
+.quiz-option:hover {
+    background: #B2DFDB;
+    border-color: #009688;
+}
+
+.quiz-option.selected {
+    background: #B2DFDB;
+    border-color: #009688;
+    font-weight: bold;
+}
+
+.quiz-option.correct {
+    background: #C8E6C9;
+    border-color: #4CAF50;
+    color: #2E7D32;
+    font-weight: bold;
+}
+
+.quiz-option.wrong {
+    background: #FFCDD2;
+    border-color: #F44336;
+    color: #C62828;
+}
+
+.quiz-option.disabled {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* === Quiz Feedback === */
+.quiz-feedback {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    display: none;
+}
+
+.quiz-feedback.show {
+    display: block;
+}
+
+.quiz-feedback.correct-feedback {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-left: 4px solid #4CAF50;
+}
+
+.quiz-feedback.wrong-feedback {
+    background: #FBE9E7;
+    color: #BF360C;
+    border-left: 4px solid #F44336;
+}
+
+/* === Quiz Resource Earned Animation === */
+.quiz-resource-earned {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    font-weight: bold;
+    color: #009688;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.quiz-resource-earned.animate {
+    animation: resourcePop 1s ease-out forwards;
+}
+
+@keyframes resourcePop {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    30%  { opacity: 1; transform: translate(-50%, -70%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -120%) scale(1); }
+}
+
+/* =============================================================
+   Build Overlay
+   ============================================================= */
+#build-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    pointer-events: none;
+    padding: 0;
+    max-width: none;
+    animation: none;
+}
+
+#build-overlay .overlay-backdrop {
+    display: block;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    pointer-events: none;
+}
+
+.build-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 320px;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+    padding: 24px;
+    overflow-y: auto;
+    pointer-events: all;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.build-panel h2 {
+    color: #004D40;
+    text-shadow: none;
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+}
+
+/* === Build Resources Display === */
+.build-resources-display {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.build-resource-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* === Build Catalog === */
+.build-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.build-card {
+    background: #E0F2F1;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.build-card:hover {
+    border-color: #009688;
+}
+
+.build-card.selected {
+    border-color: #009688;
+    background: #B2DFDB;
+    box-shadow: 0 0 12px rgba(0,150,136,0.3);
+}
+
+.build-card.locked {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.build-card-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #004D40;
+}
+
+.build-card-desc {
+    font-size: 14px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.build-card-cost {
+    font-size: 14px;
+    color: #555;
+    margin-top: 4px;
+}
+
+.build-card-cost .insufficient {
+    color: #F44336;
+}
+
+/* === Build Status === */
+.build-status {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-top: 12px;
+    font-style: italic;
+}
+
+/* === Build Close Button === */
+#build-close-btn {
+    width: 100%;
+    margin-top: 16px;
+    min-height: 48px;
+    font-size: 16px;
+}
+
+/* =============================================================
+   Building Place Animation
+   ============================================================= */
+.building-place-animation {
+    animation: buildPop 0.5s ease-out;
+}
+
+@keyframes buildPop {
+    0%   { transform: scale(0) rotate(-10deg); }
+    50%  { transform: scale(1.3) rotate(5deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+
+/* =============================================================
+   Confetti
+   ============================================================= */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 300;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    border-radius: 2px;
+    animation: confettiFall 1.5s ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* =============================================================
+   Toast Notifications
+   ============================================================= */
+.toast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #fff 0%, #E0F2F1 100%);
+    border: 2px solid #009688;
+    border-radius: 16px;
+    padding: 12px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 20px rgba(0,150,136,0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 300;
+    transition: bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 0.7em;
+    white-space: nowrap;
+}
+
+.toast.show {
+    bottom: 30px;
+}
+
+.toast-icon {
+    font-size: 1.6em;
+}
+
+.toast-text strong {
+    color: #00796B;
+}
+
+/* =============================================================
+   Responsive Design
+   ============================================================= */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .screen {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .hud-bar {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .hud-resource {
+        font-size: 14px;
+    }
+
+    .map-container {
+        max-width: 100%;
+    }
+
+    .tile {
+        font-size: 14px;
+    }
+
+    .build-panel {
+        width: 260px;
+    }
+
+    .quiz-panel {
+        padding: 20px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .screen {
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .hud-bar {
+        flex-wrap: wrap;
+        padding: 8px 10px;
+        gap: 6px;
+    }
+
+    .hud-resources {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .quiz-panel {
+        padding: 16px;
+        max-width: 95%;
+    }
+
+    .quiz-option {
+        padding: 12px 14px;
+        font-size: 16px;
+    }
+
+    #quiz-question-text {
+        font-size: 17px;
+    }
+
+    #quiz-building-name {
+        font-size: 20px;
+    }
+
+    .profile-btn {
+        padding: 12px 14px;
+        font-size: 18px;
+    }
+
+    .profile-create {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #profile-name-input,
+    #profile-grade-select,
+    #create-profile-btn {
+        width: 100%;
+    }
+
+    /* Build panel slides up from bottom on mobile */
+    .build-panel {
+        width: 100%;
+        bottom: 0;
+        top: auto;
+        height: 50vh;
+        border-radius: 16px 16px 0 0;
+        animation: slideInUp 0.3s ease-out;
+    }
+
+    @keyframes slideInUp {
+        from { transform: translateY(100%); }
+        to   { transform: translateY(0); }
+    }
+}
+
+/* Show D-pad on touch devices (JS adds .touch-device to body) */
+body.touch-device .d-pad {
+    display: grid;
+}
+
+/* =============================================================
+   Scrollbar Styling (Webkit)
+   ============================================================= */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0,150,136,0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0,150,136,0.3);
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,150,136,0.5);
+}
+
+/* Scrollbar for build panel and quiz panel */
+.build-panel::-webkit-scrollbar,
+.quiz-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.build-panel::-webkit-scrollbar-thumb,
+.quiz-panel::-webkit-scrollbar-thumb {
+    background: #B2DFDB;
+    border-radius: 3px;
+}
+
+.build-panel::-webkit-scrollbar-thumb:hover,
+.quiz-panel::-webkit-scrollbar-thumb:hover {
+    background: #4DB6AC;
+}

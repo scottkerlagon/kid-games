@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Town — Build Your Town with Science!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body tabindex="-1">
+    <!-- Floating Background Shapes -->
+    <div class="bg-shapes" id="bgShapes"></div>
+
+    <!-- Screen 1: Profile Select -->
+    <div id="profile-screen" class="screen">
+        <a href="../index.html" id="back-to-launcher" class="back-link">&#8592; Back to Launcher</a>
+        <h1>&#128300; Science Town</h1>
+        <p class="subtitle">Build your town by exploring science!</p>
+
+        <!-- Profile list — profiles rendered here by JS -->
+        <div id="profile-list"></div>
+
+        <!-- Create profile section -->
+        <div class="profile-create">
+            <input type="text" id="profile-name-input" placeholder="Enter your name" maxlength="20">
+            <select id="profile-grade-select">
+                <option value="K-2">Grades K-2 (Ages 5-8)</option>
+                <option value="3-5">Grades 3-5 (Ages 8-11)</option>
+                <option value="6-8">Grades 6-8 (Ages 11-14)</option>
+            </select>
+            <button id="create-profile-btn" class="btn btn-primary">Create Explorer</button>
+        </div>
+    </div>
+
+    <!-- Screen 2: Map Screen -->
+    <div id="map-screen" class="screen" style="display:none">
+        <!-- HUD bar -->
+        <div id="hud-bar" class="hud-bar">
+            <span id="player-name-display" class="hud-player-name"></span>
+            <span id="town-level-display" class="hud-town-level"></span>
+
+            <!-- Resource displays -->
+            <div class="hud-resources">
+                <span class="hud-resource">&#129704; <span id="resource-stone">0</span></span>
+                <span class="hud-resource">&#129717; <span id="resource-wood">0</span></span>
+                <span class="hud-resource">&#128300; <span id="resource-glass">0</span></span>
+                <span class="hud-resource">&#128267; <span id="resource-energy">0</span></span>
+                <span class="hud-resource">&#9881;&#65039; <span id="resource-metal">0</span></span>
+            </div>
+
+            <!-- HUD action buttons -->
+            <button id="build-btn" class="btn btn-hud">&#127959;&#65039; Build</button>
+            <button id="sound-toggle-btn" class="btn btn-hud">&#128266;</button>
+            <button id="change-profile-btn" class="btn btn-hud">&#128100;</button>
+        </div>
+
+        <!-- Map container -->
+        <div id="map-container" class="map-container">
+            <!-- 16x16 CSS grid — tiles rendered by JS -->
+            <div id="map-grid" class="map-grid">
+                <!-- Player character — absolutely positioned inside map-grid -->
+                <div id="player" class="player"></div>
+            </div>
+
+            <!-- Interaction prompt — shown when near a science building -->
+            <div id="interaction-prompt" class="interaction-prompt" style="display:none">Press Enter to explore!</div>
+        </div>
+
+        <!-- Mobile D-pad controls -->
+        <div id="d-pad" class="d-pad">
+            <button id="d-pad-up" class="d-pad-btn d-pad-up">&#9650;</button>
+            <button id="d-pad-left" class="d-pad-btn d-pad-left">&#9664;</button>
+            <button id="d-pad-interact" class="d-pad-btn d-pad-center">&#128269;</button>
+            <button id="d-pad-right" class="d-pad-btn d-pad-right">&#9654;</button>
+            <button id="d-pad-down" class="d-pad-btn d-pad-down">&#9660;</button>
+        </div>
+    </div>
+
+    <!-- Screen 3: Quiz Overlay -->
+    <div id="quiz-overlay" class="screen" style="display:none">
+        <div class="overlay-backdrop">
+            <div class="quiz-panel">
+                <!-- Building name header -->
+                <h2 id="quiz-building-name">The Quarry</h2>
+
+                <!-- Progress text -->
+                <p id="quiz-progress">Question 1 of 4</p>
+
+                <!-- Question text -->
+                <p id="quiz-question-text"></p>
+
+                <!-- Options container — 4 buttons rendered by JS -->
+                <div id="quiz-options" class="quiz-options"></div>
+
+                <!-- Feedback area — shows explanation on wrong answer -->
+                <div id="quiz-feedback" class="quiz-feedback"></div>
+
+                <!-- Resource earned animation — briefly shows "+1 🪨" -->
+                <div id="quiz-resource-earned" class="quiz-resource-earned"></div>
+
+                <!-- Close button -->
+                <button id="quiz-close-btn" class="btn btn-close">&#10005;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 4: Build Overlay -->
+    <div id="build-overlay" class="screen" style="display:none">
+        <div class="overlay-backdrop">
+            <div class="build-panel">
+                <!-- Build panel header -->
+                <h2>&#127959;&#65039; Build a Structure</h2>
+
+                <!-- Current resources display -->
+                <div id="build-resources-display" class="build-resources-display"></div>
+
+                <!-- Building catalog — building cards rendered by JS -->
+                <div id="build-catalog" class="build-catalog"></div>
+
+                <!-- Status text -->
+                <p id="build-status" class="build-status">Select a building, then click a green tile!</p>
+
+                <!-- Close button -->
+                <button id="build-close-btn" class="btn btn-primary">Done Building</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Background Shapes Script -->
+    <script>
+        (function() {
+            var colors = ['#4DB6AC','#80CBC4','#009688','#26A69A','#B2DFDB','#00796B','#E0F2F1','#00BCD4'];
+            var shapesContainer = document.getElementById('bgShapes');
+
+            function createShape() {
+                var shape = document.createElement('div');
+                shape.classList.add('shape');
+                var size = Math.random() * 80 + 20;
+                var color = colors[Math.floor(Math.random() * colors.length)];
+                var left = Math.random() * 100;
+                var duration = Math.random() * 10 + 8;
+                var delay = Math.random() * 5;
+
+                shape.style.width = size + 'px';
+                shape.style.height = size + 'px';
+                shape.style.background = color;
+                shape.style.left = left + '%';
+                shape.style.animationDuration = duration + 's';
+                shape.style.animationDelay = delay + 's';
+
+                shapesContainer.appendChild(shape);
+
+                setTimeout(function() { shape.remove(); }, (duration + delay) * 1000);
+            }
+
+            for (var i = 0; i < 12; i++) createShape();
+            setInterval(createShape, 1500);
+        })();
+    </script>
+
+    <!-- Game Scripts -->
+    <script src="js/profiles.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/map-data.js"></script>
+    <script src="js/map-renderer.js"></script>
+    <script src="js/buildings.js"></script>
+    <script src="js/questions-k2.js"></script>
+    <script src="js/questions-35.js"></script>
+    <script src="js/questions-68.js"></script>
+    <script src="js/quiz-engine.js"></script>
+    <script src="js/progression.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
